@@ -2,11 +2,23 @@
 
 namespace Formaggio;
 
+/**
+ * Class Formaggio
+ * @package Formaggio
+ */
 class Formaggio
 {
+    /** @var array */
     private $fields = [];
+    /** @var array */
     private $formAttributes = [];
 
+    /**
+     * Formaggio constructor.
+     * @param string $action
+     * @param string $method
+     * @param array $attributes
+     */
     public function __construct($action = "/", $method = "post", $attributes = [])
     {
         $this->formAttributes = $this->clearAttributesForm($attributes);
@@ -14,12 +26,20 @@ class Formaggio
         $this->formAttributes["method"] = $method;
     }
 
-    private function clearAttributesForm($attributes)
+    /**
+     * @param $attributes
+     * @return array
+     */
+    private function clearAttributesForm($attributes): array
     {
         unset($attributes['action'], $attributes['method']);
         return $attributes;
     }
 
+    /**
+     * @param int $index
+     * @return mixed|null
+     */
     public function getField($index = 0)
     {
         return $this->fields[$index] ?? null;
@@ -30,11 +50,18 @@ class Formaggio
         echo $this->get() . PHP_EOL;
     }
 
-    public function get()
+    /**
+     * @return string
+     */
+    public function get(): string
     {
         return $this->getFormRendered($this->formAttributes);
     }
 
+    /**
+     * @param array $attributes
+     * @return string
+     */
     private function getFormRendered($attributes = [])
     {
         $output = '<form ' . $this->buildAttributes($attributes) . '>';
@@ -43,6 +70,10 @@ class Formaggio
         return $output;
     }
 
+    /**
+     * @param $attributes
+     * @return string
+     */
     private function buildAttributes($attributes)
     {
         $rawAttr = [];
@@ -52,6 +83,10 @@ class Formaggio
         return implode(' ', $rawAttr);
     }
 
+    /**
+     * @param $fields
+     * @return string
+     */
     private function getFieldsRendered($fields)
     {
         $output = '';
@@ -61,11 +96,21 @@ class Formaggio
         return $output;
     }
 
+    /**
+     * @param $field
+     * @param string $tag
+     * @return string
+     */
     private function getFieldRendered($field, $tag = 'input')
     {
         return "<$tag " . $this->buildAttributes($field) . '>';
     }
 
+    /**
+     * @param string $name
+     * @param array $attributes
+     * @return $this
+     */
     public function text($name = "text", $attributes = array())
     {
         $attributes = $this->clearAttributesInput($attributes);
@@ -78,12 +123,21 @@ class Formaggio
         return $this;
     }
 
+    /**
+     * @param $attributes
+     * @return mixed
+     */
     private function clearAttributesInput($attributes)
     {
         unset($attributes['name'], $attributes['type']);
         return $attributes;
     }
 
+    /**
+     * @param string $name
+     * @param array $attributes
+     * @return $this
+     */
     public function email($name = "email", $attributes = array())
     {
         $attributes = $this->clearAttributesInput($attributes);
@@ -96,6 +150,11 @@ class Formaggio
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @param array $attributes
+     * @return $this
+     */
     public function password($name = "password", $attributes = array())
     {
         $attributes = $this->clearAttributesInput($attributes);
@@ -108,6 +167,10 @@ class Formaggio
         return $this;
     }
 
+    /**
+     * @param $placeholder
+     * @return $this
+     */
     public function place($placeholder)
     {
         $this->fields[count($this->fields) - 1]['placeholder'] = $placeholder;
