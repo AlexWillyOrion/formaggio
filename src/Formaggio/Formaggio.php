@@ -113,14 +113,19 @@ class Formaggio
      */
     public function text($name = "text", $attributes = array())
     {
+        $this->addFieldByType('text', $name, $attributes);
+        return $this;
+    }
+
+    private function addFieldByType($type, $name, $attributes)
+    {
         $attributes = $this->clearAttributesInput($attributes);
         $field = [
-            "type" => 'text',
-            "name" => $name
+            "type" => $type,
+            "name" => $name,
         ];
         $field = array_merge($field, $attributes);
         $this->fields[] = $field;
-        return $this;
     }
 
     /**
@@ -140,13 +145,7 @@ class Formaggio
      */
     public function email($name = "email", $attributes = array())
     {
-        $attributes = $this->clearAttributesInput($attributes);
-        $field = [
-            "type" => 'email',
-            "name" => $name
-        ];
-        $field = array_merge($field, $attributes);
-        $this->fields[] = $field;
+        $this->addFieldByType('email', $name, $attributes);
         return $this;
     }
 
@@ -157,13 +156,7 @@ class Formaggio
      */
     public function password($name = "password", $attributes = array())
     {
-        $attributes = $this->clearAttributesInput($attributes);
-        $field = [
-            "type" => 'password',
-            "name" => $name
-        ];
-        $field = array_merge($field, $attributes);
-        $this->fields[] = $field;
+        $this->addFieldByType('password', $name, $attributes);
         return $this;
     }
 
