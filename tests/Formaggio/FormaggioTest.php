@@ -11,6 +11,24 @@ namespace Formaggio;
 
 class FormaggioTest extends \PHPUnit_Framework_TestCase
 {
+    public function testRender()
+    {
+        $this->expectOutputString('<form action="/" method="post"><input type="text" name="test"></form>' . PHP_EOL);
+
+        $formaggio = new Formaggio();
+        $formaggio->text("test");
+        $formaggio->render();
+    }
+
+    public function testGet()
+    {
+        $formaggio = new Formaggio();
+        $formaggio->text("test");
+        $result = $formaggio->get();
+
+        $this->assertEquals('<form action="/" method="post"><input type="text" name="test"></form>', $result);
+    }
+
     /**
      * @dataProvider textProvider
      */
